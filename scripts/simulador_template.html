@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TSPE · Simulador de internação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#0B4F9C; --azul-medio:#1A5FCC; --azul-claro:#5B9BE6; --azul-esc:#0B2E59; --azul-fundo:#EAF2FC;
+  --verde:#0F7B53; --verde-vivo:#1E9E6A; --verde-claro:#5FC79A; --verde-fundo:#E6F5EE;
+  --vermelho:#B4232A; --vermelho-fundo:#FBE9EA; --ambar:#9A6700; --ambar-fundo:#FFF4D6;
+  --fundo:#F3F6FB; --card:#FFFFFF; --texto:#11223D; --suave:#5B6B82; --linha:#DCE3EE;
+  --sombra:0 10px 30px -12px rgba(11,46,89,.25);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--fundo);color:var(--texto);font:15px/1.55 Inter,system-ui,sans-serif;min-height:100vh}
+h1,h2,h3,.num{font-family:"Space Grotesk",Inter,sans-serif}
+button{font:inherit;cursor:pointer}
+
+/* topo */
+.topo{position:sticky;top:0;z-index:30;background:rgba(11,46,89,.96);backdrop-filter:blur(8px);color:#fff}
+.topo .in{max-width:1120px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.marca{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.01em}
+.marca .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--verde-vivo),var(--azul-claro));display:grid;place-items:center}
+.marca small{display:block;font-weight:400;opacity:.7;font-size:12px}
+.topo .esp{flex:1}
+.btn-detalhe{display:none;align-items:center;gap:8px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);padding:8px 14px;border-radius:999px;font-weight:600;font-size:13px}
+.btn-detalhe:hover{background:rgba(255,255,255,.2)}
+body.resultado .btn-detalhe{display:inline-flex}
+
+/* tela 1: formulário */
+.hero{background:radial-gradient(900px 400px at 85% -10%,rgba(95,199,154,.35),transparent 60%),radial-gradient(800px 500px at 0% 0%,rgba(91,155,230,.35),transparent 60%),linear-gradient(160deg,var(--azul-esc),#0D3B73 70%);color:#fff;padding:56px 16px 120px}
+.hero .in{max-width:760px;margin:0 auto;text-align:center}
+.hero h1{font-size:clamp(28px,4.6vw,44px);line-height:1.08;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{opacity:.85;margin:0 auto;max-width:560px}
+.passos{max-width:760px;margin:-84px auto 0;padding:0 16px 48px}
+.form{background:var(--card);border-radius:20px;box-shadow:var(--sombra);padding:28px;border:1px solid var(--linha)}
+.campo{margin-bottom:22px}.ac{position:relative;z-index:5}
+.campo label{display:flex;align-items:center;gap:10px;font-weight:600;margin-bottom:8px}
+.campo label .n{width:24px;height:24px;border-radius:50%;background:var(--azul-fundo);color:var(--azul);font-size:12px;display:grid;place-items:center;font-weight:700}
+.campo .ajuda{font-size:13px;color:var(--suave);margin:-4px 0 8px 34px}
+input.busca{width:100%;padding:13px 14px;border:1.5px solid var(--linha);border-radius:12px;font:inherit;background:#fff;color:var(--texto);outline:none;transition:border .15s}
+input.busca:focus{border-color:var(--azul-claro);box-shadow:0 0 0 4px rgba(91,155,230,.15)}
+.sugestoes{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid var(--linha);border-radius:12px;box-shadow:var(--sombra);max-height:280px;overflow:auto;z-index:10;display:none}
+.sugestoes.aberto{display:block}
+.sugestoes button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 14px;color:var(--texto)}
+.sugestoes button:hover,.sugestoes button.foco{background:var(--azul-fundo)}
+.sugestoes small{display:block;color:var(--suave);font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--linha);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;color:var(--texto);transition:all .12s}
+.chip:hover{border-color:var(--azul-claro)}
+.chip.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.grupos{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.grupo{text-align:left;border:1.5px solid var(--linha);background:#fff;border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.3;color:var(--texto);min-height:52px}
+.grupo:hover{border-color:var(--azul-claro)}
+.grupo.on{border-color:var(--verde-vivo);background:var(--verde-fundo);font-weight:600}
+.ver-todos{border:0;background:none;color:var(--azul);font-weight:600;font-size:13px;padding:6px 0;margin-top:4px}
+.selecionado{display:none;align-items:center;gap:10px;background:var(--verde-fundo);border:1.5px solid var(--verde-claro);color:var(--verde);border-radius:12px;padding:10px 14px;font-weight:600;font-size:14px;margin-top:8px}
+.selecionado.on{display:flex}
+.selecionado button{margin-left:auto;border:0;background:none;color:var(--verde);font-weight:600;font-size:13px}
+.continuar{width:100%;padding:16px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--verde-vivo),var(--verde));color:#fff;font-weight:700;font-size:16px;letter-spacing:.01em;box-shadow:0 10px 24px -10px rgba(15,123,83,.6);transition:transform .1s,opacity .15s}
+.continuar:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.continuar:not(:disabled):hover{transform:translateY(-1px)}
+.nota{font-size:12.5px;color:var(--suave);text-align:center;margin-top:14px}
+
+/* tela 2: resultado */
+#tela2{display:none}
+body.resultado #tela1{display:none}
+body.resultado #tela2{display:block;animation:entra .35s ease}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.resumo{background:linear-gradient(160deg,var(--azul-esc),#0D3B73);color:#fff;padding:28px 0 72px}
+.resumo .voltar{border:0;background:none;color:rgba(255,255,255,.75);font-weight:600;font-size:13px;padding:0;margin-bottom:14px}
+.resumo h2{font-size:clamp(22px,3.2vw,32px);margin:0 0 6px;line-height:1.15}
+.resumo .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.resumo .meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:5px 12px;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-48px}
+.kpi{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:18px;box-shadow:var(--sombra)}
+.kpi .num{font-size:30px;font-weight:700;color:var(--azul-esc);line-height:1.1}
+.kpi .l{font-size:13px;color:var(--suave);margin-top:2px}
+.kpi .s{font-size:12.5px;color:var(--suave);margin-top:8px;padding-top:8px;border-top:1px dashed var(--linha)}
+.kpi .s b{color:var(--texto)}
+h3.sec{font-size:19px;margin:36px 0 12px}
+.veredito{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--card);border:1px solid var(--linha);border-radius:18px;padding:22px;box-shadow:var(--sombra)}
+.medidor{width:120px;height:120px;position:relative;flex:none}
+.medidor svg{transform:rotate(-90deg)}
+.medidor .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-family:"Space Grotesk";font-weight:700;font-size:24px;line-height:1}
+.medidor .v small{display:block;font:500 9.5px/1.25 Inter;color:var(--suave);margin-top:4px}
+.selo{display:inline-block;font-weight:700;font-size:13px;padding:5px 12px;border-radius:999px;margin-bottom:8px}
+.ok .selo{background:var(--verde-fundo);color:var(--verde)}
+.ruim .selo{background:var(--vermelho-fundo);color:var(--vermelho)}
+.neutro .selo{background:var(--ambar-fundo);color:var(--ambar)}
+.veredito p{margin:0}
+.sugestao{margin-top:12px;background:var(--azul-fundo);border-radius:12px;padding:12px 14px;font-size:14px}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:var(--card);border:1px solid var(--linha);border-radius:16px;padding:18px}
+.box h4{margin:0 0 4px;font-size:15px}
+.box .sub{font-size:12.5px;color:var(--suave);margin:0 0 12px}
+.rank{list-style:none;margin:0;padding:0}
+.rank li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #EEF2F7}
+.rank li:last-child{border-bottom:0}
+.rank .p{width:26px;height:26px;border-radius:8px;background:var(--azul-fundo);color:var(--azul);font-weight:700;font-size:12px;display:grid;place-items:center}
+.rank li.atual .p{background:var(--azul);color:#fff}
+.rank .nome{font-size:14px;line-height:1.3}
+.rank .nome small{display:block;color:var(--suave);font-size:12px}
+.rank .val{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:14px}
+.barra{height:5px;background:#EEF2F7;border-radius:4px;margin-top:5px;overflow:hidden}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--verde-claro),var(--verde-vivo))}
+.rank .mais{display:none}
+.box.aberto .rank .mais{display:grid}
+.vermais{border:0;background:none;color:var(--azul);font-weight:600;font-size:13px;padding:8px 0 0}
+.trat li{grid-template-columns:26px 1fr}
+.causas{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--linha)}
+.box.aberto .causas{display:block}
+.causas h5{margin:0 0 6px;font-size:13px;color:var(--suave);text-transform:uppercase;letter-spacing:.04em}
+.causas ul{margin:0;padding-left:18px;font-size:14px}
+.rodape{font-size:12.5px;color:var(--suave);margin:40px 0;padding-top:16px;border-top:1px solid var(--linha)}
+
+/* painel de detalhes */
+.veu{position:fixed;inset:0;background:rgba(11,46,89,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.painel{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:var(--fundo);z-index:41;transform:translateX(100%);transition:transform .28s ease;display:flex;flex-direction:column;box-shadow:-20px 0 40px -20px rgba(11,46,89,.4)}
+body.detalhe .veu{opacity:1;pointer-events:auto}
+body.detalhe .painel{transform:none}
+.painel header{background:var(--azul-esc);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:10px}
+.painel header h3{margin:0;font-size:17px;flex:1}
+.painel header button{border:0;background:rgba(255,255,255,.12);color:#fff;width:32px;height:32px;border-radius:8px;font-size:18px}
+.abas{display:flex;gap:4px;padding:10px 12px 0;background:var(--azul-esc)}
+.abas button{border:0;background:none;color:rgba(255,255,255,.7);padding:8px 12px;border-radius:8px 8px 0 0;font-weight:600;font-size:13px}
+.abas button.on{background:var(--fundo);color:var(--azul-esc)}
+.painel .corpo{overflow:auto;padding:16px 18px 30px;flex:1}
+.aba{display:none}.aba.on{display:block}
+.painel h4{margin:18px 0 8px;font-size:14px}
+.painel h4:first-child{margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--linha)}
+th{text-align:left;font-size:11.5px;color:var(--suave);font-weight:600;background:#F7F9FC;padding:8px;border-bottom:1px solid var(--linha)}
+td{padding:8px;border-bottom:1px solid #EEF2F7}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.destaque td{background:var(--verde-fundo);font-weight:600}
+tr.atual td{background:var(--azul-fundo);font-weight:600}
+.explica{font-size:12.5px;color:var(--suave);margin:8px 0 0}
+.matriz{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;max-width:300px}
+.matriz div{background:#fff;border:1px solid var(--linha);border-radius:10px;padding:10px;text-align:center}
+.matriz div b{display:block;font-family:"Space Grotesk";font-size:20px}
+.matriz div.c{background:var(--verde-fundo);border-color:var(--verde-claro)}
+.matriz div span{font-size:11px;color:var(--suave)}
+
+@media (max-width:820px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .duas{grid-template-columns:1fr}
+  .veredito{grid-template-columns:1fr;text-align:left}
+  .form{padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="topo"><div class="in">
+  <div class="marca"><div class="logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg></div>
+    <div>TSPE <small>Mortalidade hospitalar · SUS Pernambuco</small></div></div>
+  <div class="esp"></div>
+  <button class="btn-detalhe" id="abrir-detalhe"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Dados em detalhe</button>
+</div></div>
+
+<!-- TELA 1 -->
+<section id="tela1">
+  <div class="hero"><div class="in">
+    <h1>Onde tratar, e com qual risco</h1>
+    <p>Diga o que você tem, sua idade e o hospital onde está. A gente compara com <span id="h-total"></span> internações do SUS em Pernambuco (<span id="h-periodo"></span>).</p>
+  </div></div>
+  <div class="passos"><div class="form">
+    <div class="campo">
+      <label><span class="n">1</span>O que você tem?</label>
+      <div class="ajuda">Digite um sintoma, uma doença ou escolha o grupo abaixo.</div>
+      <div class="ac"><input class="busca" id="q-doenca" placeholder="Ex.: pneumonia, infarto, dengue, fratura..." autocomplete="off"><div class="sugestoes" id="s-doenca"></div></div>
+      <div class="selecionado" id="sel-doenca"><span id="sel-doenca-t"></span><button id="limpa-doenca">trocar</button></div>
+      <div id="lista-grupos" style="margin-top:12px">
+        <div class="grupos" id="grupos"></div>
+        <button class="ver-todos" id="ver-grupos">Ver todos os grupos</button>
+      </div>
+    </div>
+    <div class="campo">
+      <label><span class="n">2</span>Faixa etária</label>
+      <div class="chips" id="faixas"></div>
+    </div>
+    <div class="campo">
+      <label><span class="n">3</span>Hospital onde você está</label>
+      <div class="ac"><input class="busca" id="q-hosp" placeholder="Digite o nome do hospital" autocomplete="off"><div class="sugestoes" id="s-hosp"></div></div>
+      <div class="selecionado" id="sel-hosp"><span id="sel-hosp-t"></span><button id="limpa-hosp">trocar</button></div>
+    </div>
+    <button class="continuar" id="continuar" disabled>Continuar</button>
+    <p class="nota">Ferramenta acadêmica. Não substitui avaliação médica.</p>
+  </div></div>
+</section>
+
+<!-- TELA 2 -->
+<section id="tela2">
+  <div class="resumo"><div class="wrap">
+    <button class="voltar" id="voltar">&larr; Mudar escolhas</button>
+    <h2 id="r-titulo"></h2>
+    <div class="meta" id="r-meta"></div>
+  </div></div>
+  <div class="wrap">
+    <div class="kpis">
+      <div class="kpi"><div class="num" id="k-tx"></div><div class="l">morreram durante a internação</div><div class="s" id="k-tx-s"></div></div>
+      <div class="kpi"><div class="num" id="k-perm"></div><div class="l">dias internado, em média</div><div class="s" id="k-perm-s"></div></div>
+      <div class="kpi"><div class="num" id="k-int"></div><div class="l">internações em Pernambuco</div><div class="s" id="k-int-s"></div></div>
+      <div class="kpi"><div class="num" id="k-hint"></div><div class="l">internações neste hospital</div><div class="s" id="k-hint-s"></div></div>
+    </div>
+
+    <h3 class="sec">Este hospital é uma boa opção pra esse caso?</h3>
+    <div class="veredito" id="veredito"></div>
+
+    <h3 class="sec">Hospitais com menor mortalidade pra esse grupo e idade</h3>
+    <div class="duas">
+      <div class="box" id="b-perto"><h4 id="t-perto"></h4><p class="sub">Mais perto de você</p><ul class="rank" id="rk-perto"></ul><button class="vermais">Ver mais</button></div>
+      <div class="box" id="b-estado"><h4>Pernambuco</h4><p class="sub">Todo o estado</p><ul class="rank" id="rk-estado"></ul><button class="vermais">Ver mais</button></div>
+    </div>
+
+    <h3 class="sec">O que mais interna nesse grupo</h3>
+    <div class="duas">
+      <div class="box"><h4>5 principais doenças</h4><p class="sub">Na sua faixa etária, por número de internações</p><ul class="rank" id="rk-doencas"></ul><button class="vermais">Ver mais</button></div>
+      <div class="box"><h4>5 principais tratamentos</h4><p class="sub">Informativo, escrito pela equipe</p><ul class="rank trat" id="rk-trat"></ul>
+        <div class="causas"><h5>Principais causas</h5><ul id="causas"></ul></div><button class="vermais">Ver causas</button></div>
+    </div>
+
+    <p class="rodape">Projeto acadêmico da disciplina Tópicos em Big Data em Python (UniFavip Wyden, 2026). Os números descrevem internações registradas no SIH/SUS, não pacientes individuais, e não consideram a gravidade de cada caso: hospital de referência recebe os casos mais graves e por isso pode ter mortalidade maior. Os tratamentos listados são informativos e não substituem avaliação médica.</p>
+  </div>
+</section>
+
+<!-- PAINEL DE DETALHES -->
+<div class="veu" id="veu"></div>
+<aside class="painel" id="painel">
+  <header><h3>Dados em detalhe</h3><button id="fechar-detalhe" aria-label="Fechar">&times;</button></header>
+  <div class="abas" id="abas">
+    <button class="on" data-aba="a-grupo">Este grupo</button>
+    <button data-aba="a-hosp">Hospitais</button>
+    <button data-aba="a-modelo">Modelo</button>
+    <button data-aba="a-fonte">Fonte</button>
+  </div>
+  <div class="corpo">
+    <div class="aba on" id="a-grupo"></div>
+    <div class="aba" id="a-hosp"></div>
+    <div class="aba" id="a-modelo"></div>
+    <div class="aba" id="a-fonte"></div>
+  </div>
+</aside>
+
+<script>
+const D = /*__DADOS__*/null;
+const $ = id => document.getElementById(id);
+const fmt = (n, d=0) => n==null||isNaN(n) ? "–" : Number(n).toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const C = D.colunas_grupos.reduce((o,c,i)=>(o[c]=i,o),{});
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const CAP_ORDEM = Object.keys(D.capitulos).filter(c=>D.capitulos[c].tratamentos.length);
+const POPULARES = ["10","9","11","19","1","2","14","15"];
+const est = {cap:null, faixa:null, cnes:null};
+
+/* índice de busca: nome do grupo + doenças da lista de morbidade + sinônimos comuns */
+const SINONIMOS = {
+ "1":"dengue febre diarreia infeccao virus bacteria verme tuberculose hepatite chikungunya zika sepse",
+ "2":"cancer tumor caroco quimioterapia leucemia mama prostata",
+ "3":"anemia sangue plaquetas imunidade",
+ "4":"diabetes acucar tireoide obesidade desnutricao",
+ "5":"depressao ansiedade surto alcool drogas psiquiatria",
+ "6":"convulsao epilepsia derrame avc parkinson enxaqueca dor de cabeca",
+ "7":"olho visao catarata glaucoma",
+ "8":"ouvido zumbido tontura labirintite",
+ "9":"coracao infarto pressao alta hipertensao avc derrame arritmia dor no peito insuficiencia cardiaca",
+ "10":"pneumonia falta de ar tosse asma bronquite gripe covid pulmao",
+ "11":"barriga estomago gastrite apendicite figado vesicula hernia vomito",
+ "12":"pele ferida celulite abscesso alergia",
+ "13":"coluna dor nas costas artrose artrite osso articulacao",
+ "14":"rim urina infeccao urinaria calculo renal pedra no rim prostata",
+ "15":"gravidez parto gestante cesarea",
+ "16":"recem nascido bebe prematuro ictericia",
+ "17":"malformacao sindrome de down congenito",
+ "18":"febre sem causa dor desmaio sintoma",
+ "19":"fratura acidente queda queimadura corte envenenamento intoxicacao trauma batida"
+};
+const indice = [];
+CAP_ORDEM.forEach(c=>{
+  const cap = D.capitulos[c];
+  indice.push({cap:c, rot:cap.nome, sub:"Grupo de doença", chave:norm(cap.nome+" "+(SINONIMOS[c]||""))});
+  const vistas = new Set();
+  Object.values(cap.por_faixa).forEach(pf=>(pf.top_doencas||[]).forEach(d=>{
+    if(!vistas.has(d.doenca)){vistas.add(d.doenca); indice.push({cap:c, rot:d.doenca, sub:cap.nome, chave:norm(d.doenca)});}
+  }));
+});
+
+/* tela 1 */
+$("h-total").textContent = fmt(Object.values(D.capitulos).reduce((s,c)=>s+Object.values(c.por_faixa).reduce((a,f)=>a+(f.internacoes||0),0),0));
+$("h-periodo").textContent = D.periodo;
+
+function desenharGrupos(todos){
+  const lista = todos ? CAP_ORDEM : POPULARES.filter(c=>CAP_ORDEM.includes(c));
+  $("grupos").innerHTML = lista.map(c=>`<button class="grupo ${est.cap==c?'on':''}" data-cap="${c}">${D.capitulos[c].nome}</button>`).join("");
+  $("ver-grupos").textContent = todos ? "Mostrar menos" : "Ver todos os grupos";
+  $("ver-grupos").dataset.todos = todos ? "1" : "";
+}
+$("ver-grupos").onclick = () => desenharGrupos(!$("ver-grupos").dataset.todos);
+$("grupos").onclick = e => { const b=e.target.closest(".grupo"); if(b) escolherCap(b.dataset.cap, D.capitulos[b.dataset.cap].nome); };
+
+function escolherCap(c, rotulo){
+  est.cap = c;
+  $("sel-doenca-t").textContent = rotulo==D.capitulos[c].nome ? rotulo : `${rotulo} · ${D.capitulos[c].nome}`;
+  $("sel-doenca").classList.add("on"); $("q-doenca").style.display="none"; $("lista-grupos").style.display="none";
+  $("s-doenca").classList.remove("aberto");
+  validar();
+}
+$("limpa-doenca").onclick = () => { est.cap=null; $("sel-doenca").classList.remove("on"); $("q-doenca").style.display=""; $("q-doenca").value=""; $("lista-grupos").style.display=""; desenharGrupos(false); validar(); $("q-doenca").focus(); };
+
+function autocompletar(input, caixa, fonte, aoEscolher){
+  let foco = -1, itens = [];
+  input.addEventListener("input", () => {
+    const q = norm(input.value.trim());
+    if (q.length < 2){ caixa.classList.remove("aberto"); return; }
+    const termos = q.split(/\s+/);
+    itens = fonte().filter(x=>termos.every(t=>x.chave.includes(t))).slice(0,12);
+    foco = -1;
+    caixa.innerHTML = itens.length ? itens.map((x,i)=>`<button data-i="${i}">${x.rot}<small>${x.sub}</small></button>`).join("")
+                                   : `<button disabled>Nada encontrado. Tente outra palavra ou escolha um grupo abaixo.</button>`;
+    caixa.classList.add("aberto");
+  });
+  input.addEventListener("keydown", e => {
+    const bs = caixa.querySelectorAll("button[data-i]");
+    if (e.key==="ArrowDown"){ foco=Math.min(bs.length-1,foco+1); }
+    else if (e.key==="ArrowUp"){ foco=Math.max(0,foco-1); }
+    else if (e.key==="Enter" && bs[Math.max(foco,0)]){ e.preventDefault(); aoEscolher(itens[Math.max(foco,0)]); return; }
+    else return;
+    e.preventDefault(); bs.forEach((b,i)=>b.classList.toggle("foco",i===foco));
+  });
+  caixa.addEventListener("mousedown", e => { const b=e.target.closest("button[data-i]"); if(b){ e.preventDefault(); aoEscolher(itens[+b.dataset.i]); } });
+  input.addEventListener("blur", () => setTimeout(()=>caixa.classList.remove("aberto"),150));
+}
+autocompletar($("q-doenca"), $("s-doenca"), ()=>indice, x=>escolherCap(x.cap, x.rot));
+
+$("faixas").innerHTML = D.faixas.map((f,i)=>`<button class="chip" data-f="${i}">${f}</button>`).join("");
+$("faixas").onclick = e => { const b=e.target.closest(".chip"); if(!b) return; est.faixa=+b.dataset.f;
+  document.querySelectorAll("#faixas .chip").forEach(x=>x.classList.toggle("on",x===b)); validar(); };
+
+const listaHosp = Object.entries(D.hospitais).map(([c,h])=>({cnes:c, rot:h.nome, sub:`${h.regiao} · ${fmt(h.internacoes)} internações no ano`, chave:norm(h.nome+" "+h.regiao)}))
+  .sort((a,b)=>D.hospitais[b.cnes].internacoes-D.hospitais[a.cnes].internacoes);
+autocompletar($("q-hosp"), $("s-hosp"), ()=>listaHosp, x=>{ est.cnes=x.cnes; $("sel-hosp-t").textContent=x.rot; $("sel-hosp").classList.add("on"); $("q-hosp").style.display="none"; $("s-hosp").classList.remove("aberto"); validar(); });
+$("limpa-hosp").onclick = () => { est.cnes=null; $("sel-hosp").classList.remove("on"); $("q-hosp").style.display=""; $("q-hosp").value=""; validar(); $("q-hosp").focus(); };
+
+function validar(){ $("continuar").disabled = !(est.cap && est.faixa!=null && est.cnes); }
+$("continuar").onclick = () => { mostrarResultado(); document.body.classList.add("resultado"); scrollTo(0,0); history.pushState({r:1},""); };
+$("voltar").onclick = () => history.back();
+addEventListener("popstate", () => { document.body.classList.remove("resultado","detalhe"); });
+desenharGrupos(false);
+
+/* tela 2 */
+const grupos = (cap,faixa) => D.grupos.filter(g=>g[C.cap]==cap && g[C.faixa]==faixa);
+
+function itemRank(g, i, atual, maxTx, extra){
+  const h = D.hospitais[g[C.cnes]];
+  return `<li class="${g[C.cnes]==atual?'atual':''} ${i>=5?'mais':''}"><span class="p">${i+1}</span>
+    <span class="nome">${h.nome}<small>${fmt(g[C.internacoes])} internações${extra?" · "+h.regiao:""}</small>
+    <div class="barra"><i style="width:${Math.max(4,100-100*g[C.tx_ajustada]/maxTx)}%"></i></div></span>
+    <span class="val">${fmt(g[C.tx_ajustada],1)}%</span></li>`;
+}
+
+function medidor(p, cor){
+  const r=50, L=2*Math.PI*r, v=p==null?0:p;
+  return `<div class="medidor"><svg width="120" height="120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="#EEF2F7" stroke-width="12"/>
+    <circle cx="60" cy="60" r="${r}" fill="none" stroke="${cor}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${L*v} ${L}"/></svg>
+    <div class="v"><div>${p==null?"–":fmt(100*p)+"%"}<small>chance de<br>ficar acima</small></div></div></div>`;
+}
+
+function mostrarResultado(){
+  const {cap, faixa, cnes} = est, F = D.faixas[faixa];
+  const ref = D.capitulos[cap].por_faixa[F] || {};
+  const h = D.hospitais[cnes];
+  const todos = grupos(+cap, faixa);
+  const g = todos.find(x=>x[C.cnes]==cnes);
+
+  $("r-titulo").textContent = D.capitulos[cap].nome;
+  $("r-meta").innerHTML = `<span>${F}</span><span>${h.nome}</span><span>${h.regiao}</span>`;
+
+  $("k-tx").textContent = fmt(ref.tx_mortalidade,1)+"%";
+  $("k-tx-s").innerHTML = `<b>${fmt(ref.obitos)}</b> óbitos em ${fmt(ref.internacoes)} internações`;
+  $("k-perm").textContent = fmt(ref.media_permanencia,1);
+  $("k-perm-s").innerHTML = g ? `Neste hospital: <b>${fmt(g[C.media_permanencia],1)} dias</b>` : "Sem internações neste hospital";
+  $("k-int").textContent = fmt(ref.internacoes);
+  $("k-int-s").innerHTML = `em <b>${fmt(todos.length)}</b> hospitais diferentes`;
+  $("k-hint").textContent = g ? fmt(g[C.internacoes]) : "0";
+  $("k-hint-s").innerHTML = g ? `Mortalidade aqui: <b>${fmt(100*g[C.obitos]/g[C.internacoes],1)}%</b> (${fmt(g[C.obitos])} óbitos)` : "Não atendeu esse grupo nessa idade";
+
+  const cands = todos.filter(x=>x[C.internacoes]>=30).sort((a,b)=>a[C.tx_ajustada]-b[C.tx_ajustada]);
+  let perto = cands.filter(x=>D.hospitais[x[C.cnes]].regiao==h.regiao), tPerto = h.regiao;
+  if (perto.length < 2){ perto = cands.filter(x=>D.hospitais[x[C.cnes]].macro==h.macro); tPerto = "Macrorregião "+h.macro.charAt(0)+h.macro.slice(1).toLowerCase(); }
+  const maxTx = Math.max(...cands.map(x=>x[C.tx_ajustada]), 1);
+  $("t-perto").textContent = tPerto;
+  $("rk-perto").innerHTML = perto.slice(0,10).map((x,i)=>itemRank(x,i,cnes,maxTx,false)).join("") || `<li><span></span><span class="nome">Nenhum hospital da região com 30 ou mais internações nesse grupo.</span></li>`;
+  $("rk-estado").innerHTML = cands.slice(0,10).map((x,i)=>itemRank(x,i,cnes,maxTx,true)).join("");
+
+  const p = D.prob_acima[`${cnes}|${cap}|${faixa}`];
+  const melhor = perto.find(x=>x[C.cnes]!=cnes) || cands.find(x=>x[C.cnes]!=cnes);
+  const sug = melhor ? `<div class="sugestao">Opção com menor mortalidade perto de você: <b>${D.hospitais[melhor[C.cnes]].nome}</b>, com ${fmt(melhor[C.tx_ajustada],1)}% em ${fmt(melhor[C.internacoes])} internações desse grupo.</div>` : "";
+  let cls, selo, txt, cor;
+  if (p==null){
+    cls="neutro"; selo="Poucos casos pra avaliar"; cor="#9A6700";
+    txt = g ? `Esse hospital internou só ${fmt(g[C.internacoes])} pessoa(s) desse grupo nessa idade no período. É pouco pra comparar com o estado.` : "Esse hospital não internou ninguém desse grupo nessa idade no período.";
+  } else if (p < 0.5){
+    cls="ok"; selo="Dentro do esperado"; cor="#1E9E6A";
+    txt = `Pelo histórico, a mortalidade desse hospital pra esse grupo fica dentro do que se vê no estado. O modelo dá ${fmt(100*p)}% de chance de ela ficar acima.`;
+  } else {
+    cls="ruim"; selo="Acima do esperado"; cor="#B4232A";
+    txt = `Pelo histórico, a mortalidade desse hospital pra esse grupo tende a ficar acima do estado (${fmt(100*p)}% segundo o modelo). Hospital de referência costuma receber casos mais graves, então leve isso em conta.`;
+  }
+  $("veredito").className = "veredito "+cls;
+  $("veredito").innerHTML = medidor(p, cor) + `<div><span class="selo">${selo}</span><p>${txt}</p>${cls!=="ok"?sug:""}</div>`;
+
+  const tops = ref.top_doencas || [], maxI = Math.max(...tops.map(d=>d.internacoes),1);
+  $("rk-doencas").innerHTML = tops.map((d,i)=>`<li class="${i>=5?'mais':''}"><span class="p">${i+1}</span><span class="nome">${d.doenca}<small>${fmt(d.tx_mortalidade,1)}% de óbito</small><div class="barra"><i style="width:${100*d.internacoes/maxI}%;background:linear-gradient(90deg,var(--azul-claro),var(--azul))"></i></div></span><span class="val">${fmt(d.internacoes)}</span></li>`).join("");
+  const cp = D.capitulos[cap];
+  $("rk-trat").innerHTML = cp.tratamentos.map((t,i)=>`<li><span class="p">${i+1}</span><span class="nome">${t}</span></li>`).join("");
+  $("causas").innerHTML = cp.causas.map(t=>`<li>${t}</li>`).join("");
+  document.querySelectorAll("#tela2 .box").forEach(b=>{ b.classList.remove("aberto"); const v=b.querySelector(".vermais"); v.textContent = v.textContent.includes("causas")||b.querySelector("#causas") ? "Ver causas" : "Ver mais"; });
+
+  montarDetalhe(todos, g, ref);
+}
+
+document.querySelectorAll("#tela2 .vermais").forEach(b=>b.addEventListener("click",()=>{
+  const box=b.closest(".box"); box.classList.toggle("aberto");
+  const ehCausa = !!box.querySelector("#causas");
+  b.textContent = box.classList.contains("aberto") ? "Ver menos" : (ehCausa ? "Ver causas" : "Ver mais");
+}));
+
+/* painel */
+function montarDetalhe(todos, g, ref){
+  const {cap, faixa, cnes} = est, cp = D.capitulos[cap];
+  const linhasFaixa = D.faixas.map((f,i)=>{ const r=cp.por_faixa[f]||{}; return `<tr class="${i==faixa?'atual':''}"><td>${f}</td><td class="n">${fmt(r.internacoes)}</td><td class="n">${fmt(r.obitos)}</td><td class="n">${fmt(r.tx_mortalidade,2)}%</td><td class="n">${fmt(r.media_permanencia,1)}</td></tr>`; }).join("");
+  $("a-grupo").innerHTML = `<h4>${cp.nome}, por faixa etária</h4>
+    <table><tr><th>Faixa</th><th class="n">Intern.</th><th class="n">Óbitos</th><th class="n">Mortal.</th><th class="n">Dias</th></tr>${linhasFaixa}</table>
+    <p class="explica">Mortalidade = óbitos ÷ internações. Dias = dias de permanência ÷ internações. Fonte: SIH/SUS, ${D.periodo}.</p>
+    <h4>Todas as doenças do grupo nessa idade</h4>
+    <table><tr><th>Doença</th><th class="n">Intern.</th><th class="n">Mortal.</th></tr>${(ref.top_doencas||[]).map(d=>`<tr><td>${d.doenca}</td><td class="n">${fmt(d.internacoes)}</td><td class="n">${fmt(d.tx_mortalidade,1)}%</td></tr>`).join("")}</table>`;
+
+  const ord = [...todos].sort((a,b)=>b[C.internacoes]-a[C.internacoes]);
+  $("a-hosp").innerHTML = `<h4>${fmt(ord.length)} hospitais internaram esse grupo nessa idade</h4>
+    <table><tr><th>Hospital</th><th class="n">Intern.</th><th class="n">Óbitos</th><th class="n">Crua</th><th class="n">Ajust.</th><th class="n">Prob.</th></tr>
+    ${ord.map(x=>{const p=D.prob_acima[`${x[C.cnes]}|${cap}|${faixa}`];return `<tr class="${x[C.cnes]==cnes?'atual':''}"><td>${D.hospitais[x[C.cnes]].nome}<br><small style="color:var(--suave)">${D.hospitais[x[C.cnes]].regiao}</small></td><td class="n">${fmt(x[C.internacoes])}</td><td class="n">${fmt(x[C.obitos])}</td><td class="n">${fmt(100*x[C.obitos]/x[C.internacoes],1)}%</td><td class="n">${fmt(x[C.tx_ajustada],1)}%</td><td class="n">${p==null?"–":fmt(100*p)+"%"}</td></tr>`;}).join("")}</table>
+    <p class="explica"><b>Crua</b>: óbitos ÷ internações. <b>Ajustada</b>: soma 20 internações "imaginárias" com a taxa do estado, pra hospital pequeno não parecer ótimo ou péssimo por acaso. <b>Prob.</b>: chance, segundo o modelo, de o hospital ficar acima da mortalidade do estado (só calculada com 10 ou mais internações).</p>`;
+
+  const M = D.todos_modelos || {[D.metricas_modelo.modelo]: D.metricas_modelo};
+  const melhor = D.metricas_modelo.modelo;
+  const linhas = Object.entries(M).map(([n,m])=>`<tr class="${n==melhor?'destaque':''}"><td>${n}</td><td class="n">${fmt(m.auroc_cv,3)}</td><td class="n">${fmt(m.auroc_teste,3)}</td><td class="n">${fmt(100*m.acuracia,1)}%</td><td class="n">${fmt(100*m.sensibilidade,1)}%</td><td class="n">${fmt(100*m.especificidade,1)}%</td><td class="n">${fmt(m.f1,3)}</td></tr>`).join("");
+  const mm = D.metricas_modelo;
+  $("a-modelo").innerHTML = `<h4>Os três modelos comparados</h4>
+    <table><tr><th>Modelo</th><th class="n">AUROC CV</th><th class="n">AUROC teste</th><th class="n">Acurácia</th><th class="n">Sensib.</th><th class="n">Especif.</th><th class="n">F1</th></tr>${linhas}</table>
+    <p class="explica">Escolha pela AUROC da validação cruzada (5 partes), no conjunto de treino (75%). As demais colunas foram medidas uma única vez no teste (25%), que o modelo nunca viu.</p>
+    <h4>O que o modelo responde</h4>
+    <p class="explica" style="font-size:13.5px;color:var(--texto)">Pra cada hospital, grupo de doença e faixa etária com 10 ou mais internações: a mortalidade ficou <b>acima</b> ou <b>dentro</b> da mortalidade do estado pra mesma doença e idade? Entram no modelo a faixa etária, a permanência média no hospital, o volume de internações, o porte do hospital, a fatia de urgências, a macrorregião, o grupo de doença e as taxas de referência do estado.</p>
+    <h4>Como ler as métricas do ${melhor}</h4>
+    <table>
+      <tr><td>Acurácia</td><td class="n">${fmt(100*mm.acuracia,1)}%</td><td>acertos sobre o total</td></tr>
+      <tr><td>Precisão</td><td class="n">${fmt(100*mm.precisao,1)}%</td><td>quando diz "acima", quantas vezes acerta</td></tr>
+      <tr><td>Sensibilidade</td><td class="n">${fmt(100*mm.sensibilidade,1)}%</td><td>dos que estavam acima, quantos ele pegou</td></tr>
+      <tr><td>Especificidade</td><td class="n">${fmt(100*mm.especificidade,1)}%</td><td>dos que estavam dentro, quantos ele confirmou</td></tr>
+      <tr><td>AUROC</td><td class="n">${fmt(mm.auroc_teste,3)}</td><td>separação entre as classes (0,5 = chute)</td></tr>
+    </table>`;
+
+  $("a-fonte").innerHTML = `<h4>De onde vêm os números</h4>
+    <p class="explica" style="font-size:13.5px;color:var(--texto)">SIH/SUS (Sistema de Informações Hospitalares), Morbidade Hospitalar do SUS por local de internação, Pernambuco, consultado no TABNET/DATASUS. Período: ${D.periodo} (12 meses, por mês de processamento).</p>
+    <h4>Limites</h4>
+    <ul class="explica" style="font-size:13.5px;color:var(--texto);padding-left:18px">
+      <li>Os dados são agregados: o modelo compara grupos de internações, não pacientes.</li>
+      <li>Não há gravidade do caso. Hospital de referência atende casos mais graves.</li>
+      <li>"Mais perto" usa a região de saúde do hospital, não a distância em quilômetros.</li>
+      <li>Os tratamentos não vêm do DATASUS (que registra diagnóstico, não remédio). São textos da equipe.</li>
+    </ul>
+    <h4>Equipe</h4><p class="explica" style="font-size:13.5px;color:var(--texto)">Julio César Batista Silva, Teves Gabriel, Luciano Filho, Jonathas Costa e Anderson Davi. Disciplina WYD6399, UniFavip Wyden, Caruaru, 2026.</p>`;
+}
+
+$("abrir-detalhe").onclick = () => document.body.classList.add("detalhe");
+$("fechar-detalhe").onclick = $("veu").onclick = () => document.body.classList.remove("detalhe");
+addEventListener("keydown", e => { if(e.key==="Escape") document.body.classList.remove("detalhe"); });
+$("abas").onclick = e => { const b=e.target.closest("button"); if(!b) return;
+  document.querySelectorAll("#abas button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".aba").forEach(a=>a.classList.toggle("on",a.id===b.dataset.aba)); };
+</script>
+</body>
+</html>

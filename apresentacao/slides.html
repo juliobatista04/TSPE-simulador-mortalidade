@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSPE · Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--azul:#0B4F9C;--azul-medio:#1A5FCC;--azul-claro:#5B9BE6;--azul-esc:#0B2E59;--azul-fundo:#EAF2FC;
+--verde:#0F7B53;--verde-vivo:#1E9E6A;--verde-claro:#5FC79A;--verde-fundo:#E6F5EE;--vermelho:#B4232A;--vermelho-fundo:#FBE9EA;
+--ambar:#9A6700;--ambar-fundo:#FFF4D6;--papel:#F4F7FB;--texto:#11223D;--suave:#5B6B82;--linha:#DCE3EE;--branco:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#071B36;font-family:Inter,system-ui,sans-serif;color:var(--texto);overflow:hidden}
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:4.5vh 5vw 9vh;opacity:0;transition:opacity .35s ease;overflow:hidden}
+.slide.active{display:flex;opacity:1}
+.papel{background:radial-gradient(70% 60% at 100% 0%,rgba(91,155,230,.10),transparent 60%),var(--papel)}
+.fundo{background:radial-gradient(70% 70% at 0% 100%,rgba(95,199,154,.28),transparent 55%),radial-gradient(70% 70% at 100% 0%,rgba(91,155,230,.35),transparent 60%),linear-gradient(150deg,#0B2E59,#0D3B73);color:#fff}
+.h,.titulo,.num-grande,.capa-t{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.015em}
+.topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.6vh}
+.etq{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.55em 1.3em;border-radius:40px;border:1.5px solid var(--linha);color:var(--suave)}
+.fundo .etq{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+.marca{font-family:"Space Grotesk";font-weight:700;font-size:.95rem;color:var(--azul)}
+.fundo .marca{color:#fff}
+.marca i{display:inline-block;width:10px;height:10px;border-radius:3px;background:linear-gradient(135deg,var(--verde-vivo),var(--azul-claro));margin-right:8px}
+.titulo{font-size:clamp(26px,3.3vw,50px);line-height:1.04;color:var(--azul-esc);font-weight:700;max-width:24ch}
+.fundo .titulo{color:#fff}
+.sub{font-size:clamp(14px,1.25vw,19px);color:var(--suave);margin-top:1.2vh;max-width:70ch}
+.fundo .sub{color:rgba(255,255,255,.78)}
+.corpo{flex:1;display:grid;gap:2.4vw;margin-top:3vh;align-items:start;min-height:0}
+.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}
+.c64{grid-template-columns:1.5fr 1fr}
+.card{background:#fff;border:1px solid var(--linha);border-radius:18px;padding:2.2vh 1.5vw;box-shadow:0 10px 30px -18px rgba(11,46,89,.35)}
+.fundo .card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);box-shadow:none}
+.card h4{font-family:"Space Grotesk";font-size:clamp(14px,1.2vw,19px);margin-bottom:.8vh;color:var(--azul-esc)}
+.fundo .card h4{color:#fff}
+.card p,.card li{font-size:clamp(12.5px,1.02vw,16px);line-height:1.45}
+.fundo .card p,.fundo .card li{color:rgba(255,255,255,.88)}
+.card ul{list-style:none}.card li{position:relative;padding-left:1.2em;margin-bottom:.8vh}
+.card li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--verde-vivo)}
+.card b{color:var(--azul)}.fundo .card b{color:var(--verde-claro)}
+.num-grande{font-size:clamp(26px,3vw,48px);font-weight:700;color:var(--azul-esc);line-height:1}
+.fundo .num-grande{color:#fff}
+.rot{font-size:clamp(11.5px,.95vw,15px);color:var(--suave);margin-top:.6vh}
+.fundo .rot{color:rgba(255,255,255,.7)}
+.kpi{border-top:4px solid var(--verde-vivo)}
+/* capa */
+.capa-t{font-size:clamp(40px,6.4vw,104px);line-height:.95;font-weight:700;margin-top:auto}
+.capa-t em{font-style:normal;color:var(--verde-claro)}
+.capa-s{font-size:clamp(15px,1.5vw,24px);color:rgba(255,255,255,.8);margin-top:2.5vh;max-width:46ch}
+.capa-m{display:flex;gap:1.2vw;flex-wrap:wrap;margin-top:4vh}
+.capa-m span{font-size:.85rem;border:1px solid rgba(255,255,255,.25);border-radius:40px;padding:.45em 1.1em;color:rgba(255,255,255,.85)}
+/* fluxo */
+.fluxo{display:flex;gap:.8vw;align-items:stretch}
+.fluxo .p{flex:1;background:#fff;border:1px solid var(--linha);border-radius:16px;padding:1.8vh 1vw;position:relative}
+.fluxo .p .n{font-family:"Space Grotesk";font-weight:700;font-size:.75rem;color:#fff;background:var(--azul);border-radius:20px;padding:.2em .7em;display:inline-block;margin-bottom:.8vh}
+.fluxo .p h5{font-family:"Space Grotesk";font-size:clamp(13px,1.08vw,17px);color:var(--azul-esc);margin-bottom:.5vh}
+.fluxo .p p{font-size:clamp(11.5px,.9vw,14px);color:var(--suave);line-height:1.4}
+.fluxo .p.fim{background:linear-gradient(135deg,var(--verde),var(--verde-vivo));border:0}
+.fluxo .p.fim h5,.fluxo .p.fim p{color:#fff}.fluxo .p.fim .n{background:rgba(255,255,255,.25)}
+.seta{align-self:center;color:var(--azul-claro);font-size:1.4rem}
+/* tabela */
+table{width:100%;border-collapse:collapse;font-size:clamp(12px,.98vw,15.5px);background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--linha)}
+th{text-align:left;background:var(--azul-esc);color:#fff;font-weight:600;padding:1vh .8vw;font-size:.92em}
+td{padding:.95vh .8vw;border-bottom:1px solid #EEF2F7;vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.top td{background:var(--verde-fundo);font-weight:600}
+code{font-family:ui-monospace,Consolas,monospace;font-size:.88em;background:var(--azul-fundo);color:var(--azul);padding:.1em .4em;border-radius:5px}
+/* barras */
+.barras{display:flex;flex-direction:column;gap:.85vh}
+.barras .l{display:grid;grid-template-columns:minmax(110px,32%) 1fr 64px;gap:.8vw;align-items:center;font-size:clamp(11.5px,.92vw,14.5px)}
+.barras .t{height:16px;background:#E8EEF6;border-radius:6px;overflow:hidden}
+.barras .t i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--azul-claro),var(--azul))}
+.barras .t i.v{background:linear-gradient(90deg,var(--verde-claro),var(--verde-vivo))}
+.barras .t i.r{background:linear-gradient(90deg,#E58C8F,var(--vermelho))}
+.barras .v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.colunas{display:flex;align-items:flex-end;gap:.5vw;height:30vh;padding-top:2vh}
+.colunas .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.colunas .c i{width:100%;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--vermelho),#E58C8F)}
+.colunas .c b{font-size:clamp(10px,.82vw,13px);margin-bottom:.4vh;color:var(--texto)}
+.colunas .c span{font-size:clamp(9.5px,.72vw,12px);color:var(--suave);margin-top:.5vh;text-align:center;line-height:1.1}
+/* semanas */
+.semanas{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;position:relative}
+.sem{background:#fff;border:1px solid var(--linha);border-radius:16px;padding:2vh 1vw;border-top:5px solid var(--azul)}
+.sem:nth-child(2){border-top-color:var(--azul-claro)}.sem:nth-child(3){border-top-color:var(--verde-claro)}.sem:nth-child(4){border-top-color:var(--verde-vivo)}
+.sem .k{font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--suave);text-transform:uppercase}
+.sem h5{font-family:"Space Grotesk";font-size:clamp(14px,1.2vw,19px);color:var(--azul-esc);margin:.6vh 0 1vh}
+.sem ul{list-style:none}.sem li{font-size:clamp(11.5px,.9vw,14px);line-height:1.4;margin-bottom:.7vh;padding-left:1em;position:relative;color:var(--texto)}
+.sem li::before{content:"";position:absolute;left:0;top:.5em;width:5px;height:5px;border-radius:50%;background:var(--azul-claro)}
+/* matriz */
+.mz{display:grid;grid-template-columns:auto 1fr 1fr;gap:5px;font-size:clamp(11px,.9vw,14px)}
+.mz div{border-radius:10px;padding:1vh .5vw;text-align:center;background:#fff;border:1px solid var(--linha)}
+.mz .h{background:none;border:0;color:var(--suave);font-weight:600;font-size:.85em}
+.mz .ok{background:var(--verde-fundo);border-color:var(--verde-claro)}
+.mz .er{background:var(--vermelho-fundo);border-color:#F2B8BB}
+.mz b{display:block;font-family:"Space Grotesk";font-size:1.5em}
+.alerta{background:var(--ambar-fundo);border:1px solid #F0D58A;border-radius:14px;padding:1.4vh 1.1vw;font-size:clamp(12px,.98vw,15px);margin-top:1.6vh}
+.alerta b{color:var(--ambar)}
+.frase{font-family:"Space Grotesk";font-size:clamp(22px,2.7vw,42px);line-height:1.15;max-width:26ch;font-weight:600}
+.frase em{font-style:normal;color:var(--verde-claro)}
+.mini{font-size:clamp(11px,.85vw,13px);color:var(--suave);margin-top:1vh}
+.fundo .mini{color:rgba(255,255,255,.6)}
+.hud{position:fixed;bottom:2.2vh;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:1rem;z-index:50;background:rgba(7,27,54,.7);backdrop-filter:blur(10px);padding:.45rem 1rem;border-radius:40px;border:1px solid rgba(91,155,230,.35)}
+.hud button{background:none;border:none;cursor:pointer;color:var(--verde-claro);font-size:1.15rem;padding:.15rem .5rem;border-radius:8px}
+.hud button:hover{background:rgba(255,255,255,.1)}
+.hud .count{font-family:"Space Grotesk";font-size:.85rem;color:rgba(255,255,255,.8);min-width:60px;text-align:center}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--azul-claro),var(--verde-claro));z-index:60;transition:width .35s ease}
+.parte{font-family:"Space Grotesk";font-size:clamp(70px,13vw,210px);font-weight:700;line-height:.8;color:rgba(255,255,255,.08);position:absolute;right:4vw;bottom:6vh}
+@media(max-width:820px){.c2,.c3,.c4,.c64,.semanas{grid-template-columns:1fr}.fluxo{flex-direction:column}.seta{transform:rotate(90deg)}html,body{overflow:auto}.slide{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck">
+
+<!-- 1 CAPA -->
+<section class="slide fundo active">
+  <div class="topo"><span class="etq">WYD6399 · Tópicos em Big Data em Python</span><span class="marca"><i></i>TSPE</span></div>
+  <div class="capa-t">Onde tratar,<br>e com <em>qual risco</em></div>
+  <p class="capa-s">Aprendizado de máquina sobre 679.632 internações do SUS em Pernambuco pra apontar mortalidade, permanência e o hospital com melhor resultado por grupo de doença e idade.</p>
+  <div class="capa-m"><span>Julio César Batista Silva</span><span>Teves Gabriel</span><span>Luciano Filho</span><span>Jonathas Costa</span><span>Anderson Davi</span></div>
+  <p class="mini" style="margin-top:2vh">Prof. Me. Flávio Morais · UniFavip Wyden · Caruaru, 2026</p>
+</section>
+
+<!-- 2 PROBLEMA -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">1 · Introdução e objetivo</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">A chance de morrer internado muda muito com a doença, a idade e o hospital</h2>
+  <div class="corpo c64">
+    <div class="card">
+      <h4>Mortalidade hospitalar por faixa etária, PE</h4>
+      <div class="colunas">
+        <div class="c"><b>1,9%</b><i style="height:11.8%"></i><span>&lt;1</span></div>
+        <div class="c"><b>0,5%</b><i style="height:3.3%"></i><span>1-4</span></div>
+        <div class="c"><b>0,4%</b><i style="height:2.4%"></i><span>5-9</span></div>
+        <div class="c"><b>0,5%</b><i style="height:3%"></i><span>10-14</span></div>
+        <div class="c"><b>0,5%</b><i style="height:3.3%"></i><span>15-19</span></div>
+        <div class="c"><b>0,6%</b><i style="height:3.8%"></i><span>20-29</span></div>
+        <div class="c"><b>1,2%</b><i style="height:7.5%"></i><span>30-39</span></div>
+        <div class="c"><b>2,6%</b><i style="height:16.8%"></i><span>40-49</span></div>
+        <div class="c"><b>4,3%</b><i style="height:27.2%"></i><span>50-59</span></div>
+        <div class="c"><b>6,6%</b><i style="height:42.2%"></i><span>60-69</span></div>
+        <div class="c"><b>9,7%</b><i style="height:62%"></i><span>70-79</span></div>
+        <div class="c"><b>15,7%</b><i style="height:100%"></i><span>80+</span></div>
+      </div>
+      <p class="mini">Óbitos ÷ internações, SIH/SUS, out/2025 a set/2026.</p>
+    </div>
+    <div class="card">
+      <h4>O problema</h4>
+      <ul>
+        <li>Em 12 meses, <b>27.905 pessoas</b> morreram internadas pelo SUS em Pernambuco (4,11% das internações).</li>
+        <li>Infecciosas matam <b>15,5%</b> dos internados. Gravidez e parto, <b>0,02%</b>.</li>
+        <li>No mesmo grupo e idade, um hospital pode ter o dobro da mortalidade de outro da mesma região.</li>
+        <li>Quem está internado, ou o gestor, não tem esse número na mão.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 OBJETIVO -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">1 · Introdução e objetivo</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">O que o aprendizado de máquina faz aqui</h2>
+  <p class="sub">A pessoa informa o grupo de doença, a faixa etária e o hospital. O sistema responde com os números do estado e uma classificação do hospital.</p>
+  <div class="corpo c2">
+    <div class="card" style="border-left:5px solid var(--verde-vivo)">
+      <h4>Pergunta do modelo (classificação binária)</h4>
+      <p style="font-size:clamp(15px,1.35vw,21px);line-height:1.35;margin-top:1vh">Nesse hospital, pra esse grupo de doença e essa faixa etária, a mortalidade fica <b>acima</b> da mortalidade do estado?</p>
+      <p class="mini" style="margin-top:2vh">1 = acima do esperado · 0 = dentro do esperado</p>
+    </div>
+    <div class="card">
+      <h4>O que o simulador entrega</h4>
+      <ul>
+        <li>Taxa de mortalidade e tempo médio de permanência do grupo</li>
+        <li>Internações no estado e no hospital escolhido</li>
+        <li>Se o hospital está dentro ou acima do esperado (o modelo)</li>
+        <li>Hospitais com menor mortalidade na região e no estado</li>
+        <li>As 5 doenças que mais internam no grupo e os 5 tratamentos principais</li>
+        <li>Acurácia e demais métricas do modelo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 LINHA DO TEMPO -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">Como o projeto andou</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Quatro semanas, do TABNET ao simulador</h2>
+  <div class="corpo" style="grid-template-columns:1fr">
+    <div class="semanas">
+      <div class="sem"><span class="k">Semana 1</span><h5>Dados e tratamento</h5><ul><li>Escolha da base (SIH/SUS no TABNET)</li><li>58 tabelas baixadas, 12 meses</li><li>Limpeza, junção e taxas recalculadas</li><li>Dificuldades do TABNET resolvidas</li></ul></div>
+      <div class="sem"><span class="k">Semana 2</span><h5>Aprendizado de máquina</h5><ul><li>Definição do alvo e dos atributos</li><li>3 modelos com GridSearchCV e K=5</li><li>Comparação no conjunto de teste</li><li>Importância das variáveis</li></ul></div>
+      <div class="sem"><span class="k">Semana 3</span><h5>Alinhamentos</h5><ul><li>Checagem item a item dos objetivos</li><li>Limites assumidos (km, tratamentos)</li><li>Taxa ajustada pro ranking de hospitais</li><li>Revisão com a diretriz da disciplina</li></ul></div>
+      <div class="sem"><span class="k">Semana 4</span><h5>Criação e entrega</h5><ul><li>Simulador web em duas telas</li><li>Painel de dados em detalhe</li><li>Repositório e documentação</li><li>Esta apresentação</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 COLETA -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Metodologia e dados</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Como os dados foram coletados</h2>
+  <p class="sub">SIH/SUS, Morbidade Hospitalar por local de internação, Pernambuco. Arquivos <code>nipe2510</code> a <code>nipe2609</code>: outubro/2025 a setembro/2026, os 12 meses mais recentes publicados.</p>
+  <div class="corpo" style="grid-template-columns:1fr;gap:2.4vh">
+    <div class="fluxo">
+      <div class="p"><span class="n">1</span><h5>Consulta no TABNET</h5><p>O formulário só cruza duas variáveis por vez (linha × coluna).</p></div><span class="seta">&#9654;</span>
+      <div class="p"><span class="n">2</span><h5>Consulta automatizada</h5><p>Script envia o mesmo pedido do formulário (POST, latin-1, formato CSV) e salva cada tabela.</p></div><span class="seta">&#9654;</span>
+      <div class="p"><span class="n">3</span><h5>Terceira dimensão</h5><p>Hospital × capítulo repetido 12 vezes, uma por faixa etária usada como filtro.</p></div><span class="seta">&#9654;</span>
+      <div class="p fim"><span class="n">4</span><h5>58 tabelas</h5><p>3 medidas (internações, óbitos, dias de permanência) em 12 cruzamentos de estado e 46 de hospital.</p></div>
+    </div>
+    <div class="c3" style="display:grid;gap:1.2vw">
+      <div class="card kpi"><div class="num-grande">679.632</div><div class="rot">internações (AIH aprovadas) no período</div></div>
+      <div class="card kpi"><div class="num-grande">27.905</div><div class="rot">óbitos registrados na internação</div></div>
+      <div class="card kpi"><div class="num-grande">255</div><div class="rot">hospitais com internação em PE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 BASE ORIGINAL -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Metodologia e dados</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Base original: o que veio do TABNET</h2>
+  <div class="corpo c2">
+    <div>
+      <table>
+        <tr><th>Item</th><th class="n">Quantidade</th></tr>
+        <tr><td>Tabelas brutas (CSV)</td><td class="n">58</td></tr>
+        <tr><td>Hospitais (estabelecimentos)</td><td class="n">255</td></tr>
+        <tr><td>Capítulos CID-10</td><td class="n">20</td></tr>
+        <tr><td>Faixas etárias</td><td class="n">12</td></tr>
+        <tr><td>Doenças da Lista de Morbidade</td><td class="n">317</td></tr><tr><td>Regiões de saúde / macrorregiões</td><td class="n">12 / 4</td></tr>
+        <tr class="top"><td>Registros hospital × capítulo × faixa</td><td class="n">17.890</td></tr>
+        <tr><td>Atributos brutos por registro</td><td class="n">10</td></tr>
+      </table>
+      <p class="mini">Atributos brutos: hospital (CNES e nome), capítulo, faixa etária, internações, óbitos, dias de permanência, região de saúde, macrorregião, microrregião e caráter do atendimento.</p>
+    </div>
+    <div class="card">
+      <h4>Internações por grupo de doença</h4>
+      <div class="barras">
+        <div class="l"><span>Gravidez e parto</span><span class="t"><i style="width:100%"></i></span><span class="v">94.415</span></div>
+        <div class="l"><span>Lesões e causas externas</span><span class="t"><i style="width:86%"></i></span><span class="v">81.385</span></div>
+        <div class="l"><span>Digestivo</span><span class="t"><i style="width:67%"></i></span><span class="v">63.646</span></div>
+        <div class="l"><span>Circulatório</span><span class="t"><i style="width:67%"></i></span><span class="v">63.230</span></div>
+        <div class="l"><span>Respiratório</span><span class="t"><i style="width:61%"></i></span><span class="v">57.214</span></div>
+        <div class="l"><span>Neoplasias</span><span class="t"><i style="width:60%"></i></span><span class="v">56.491</span></div>
+        <div class="l"><span>Geniturinário</span><span class="t"><i style="width:50%"></i></span><span class="v">47.311</span></div>
+        <div class="l"><span>Infecciosas</span><span class="t"><i style="width:47%"></i></span><span class="v">44.268</span></div>
+      </div>
+      <p class="mini">Mortalidade nesses mesmos grupos: infecciosas 15,5%, circulatório 7,7%, respiratório 7,7%, neoplasias 5,6%.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 PRE-PROCESSAMENTO -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Pré-processamento</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Tratamento, na ordem em que roda</h2>
+  <div class="corpo c3">
+    <div class="card"><h4>1. Leitura</h4><ul><li>Remoção de cabeçalho, rodapé e linha/coluna <b>Total</b></li><li>Remoção de sobra de HTML (<code>&amp;</code> no fim)</li><li>Números no formato brasileiro convertidos (<code>1.234,5</code> → <code>1234.5</code>)</li></ul></div>
+    <div class="card"><h4>2. Valores ausentes</h4><ul><li><code>-</code> no TABNET significa <b>zero</b>, então vira 0</li><li>Combinação sem internação é célula vazia: removida (não é dado)</li><li>% de urgência faltante: mediana</li><li>Duplicatas: nenhuma (chave hospital × capítulo × faixa é única)</li></ul></div>
+    <div class="card"><h4>3. Transformação</h4><ul><li>Tabelas largas "derretidas" em formato longo</li><li>Junção das 3 medidas e da região do hospital</li><li>Taxas recalculadas: <b>óbitos ÷ internações</b> e <b>dias ÷ internações</b></li><li>Capítulo padronizado em número (1 a 21)</li></ul></div>
+    <div class="card"><h4>4. Codificação</h4><ul><li>Faixa etária ordinal (0 a 11)</li><li>Capítulo e macrorregião em one-hot</li><li>log(1+x) no volume de internações e no porte</li><li>StandardScaler dentro do Pipeline</li></ul></div>
+    <div class="card"><h4>5. Filtro do modelo</h4><ul><li>Só combinações com <b>10 ou mais</b> internações</li><li>Abaixo disso a taxa é ruído (1 óbito em 3 dá 33%)</li><li>17.890 → <b>6.492</b> registros</li></ul></div>
+    <div class="card"><h4>6. Conferência</h4><ul><li>Soma dos hospitais: 679.456. Estado: 679.632</li><li>Diferença de 176 = idade ignorada</li><li>Todos os 255 hospitais com região identificada</li></ul></div>
+  </div>
+</section>
+
+<!-- 8 DIFICULDADES -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Dificuldades do tratamento</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">O que deu errado no caminho, e como foi resolvido</h2>
+  <div class="corpo" style="grid-template-columns:1fr">
+    <table>
+      <tr><th style="width:30%">Problema</th><th>O que acontecia</th><th style="width:34%">Solução</th></tr>
+      <tr><td><b>TABNET só cruza 2 variáveis</b></td><td>Não existe "hospital × doença × idade" numa consulta só.</td><td>36 consultas: hospital × capítulo filtrando cada faixa etária, depois empilhadas.</td></tr>
+      <tr><td><b>Taxa arredondada</b></td><td>A versão anterior estimava óbitos a partir da taxa (2 casas), o que distorce somas.</td><td>Baixar óbitos e dias em número absoluto e calcular as taxas.</td></tr>
+      <tr><td><b>Colab bloqueado pelo TABNET</b></td><td>O servidor respondia as primeiras tabelas e depois derrubava a conexão (IP fora do Brasil).</td><td>Download feito de um PC no Brasil, zip enviado ao Colab.</td></tr>
+      <tr><td><b>Instabilidade</b></td><td>"Impossível conectar ao servidor" no meio do lote.</td><td>Até 4 tentativas com espera crescente; o script pula o que já baixou.</td></tr>
+      <tr><td><b>Acentuação</b></td><td>Formulário em latin-1; script em UTF-8 sem BOM quebrava "Capítulo".</td><td>Codificação explícita em latin-1 e arquivo salvo com BOM.</td></tr>
+      <tr><td><b>Capítulo escrito de 3 jeitos</b></td><td><code>I.&nbsp;&nbsp;Algumas…</code>, <code>01 Algumas…</code> e <code>Cap 01</code>, conforme a tabela.</td><td>Regra única que converte os três para número 1 a 21.</td></tr>
+      <tr><td><b>Subtotais misturados</b></td><td>Tabela mensal trazia linhas "2025" e "2026" no meio dos meses.</td><td>Mantidas só as linhas no formato mês/ano.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 9 ATRIBUTOS -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Seleção de atributos</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">9 atributos entram no modelo (31 colunas após o one-hot)</h2>
+  <div class="corpo" style="grid-template-columns:1fr">
+    <table>
+      <tr><th>Atributo</th><th>Tipo</th><th>Descrição</th></tr>
+      <tr><td><code>cap</code></td><td>categórico</td><td>Capítulo CID-10 (grupo de doença)</td></tr>
+      <tr><td><code>faixa_ord</code></td><td>ordinal</td><td>Faixa etária de 0 (menor de 1 ano) a 11 (80 anos e mais)</td></tr>
+      <tr><td><code>media_permanencia</code></td><td>numérico</td><td>Dias internado, em média, naquele hospital, grupo e idade</td></tr>
+      <tr><td><code>log_internacoes</code></td><td>numérico</td><td>Volume de internações do grupo no hospital (log)</td></tr>
+      <tr><td><code>tx_estado</code></td><td>numérico</td><td>Mortalidade do estado pra mesma doença e idade (referência)</td></tr>
+      <tr><td><code>perm_estado</code></td><td>numérico</td><td>Permanência média do estado pra mesma doença e idade</td></tr>
+      <tr><td><code>log_porte</code></td><td>numérico</td><td>Total de internações do hospital no ano (log)</td></tr>
+      <tr><td><code>pct_urgencia</code></td><td>numérico</td><td>% das internações do hospital que foram de urgência</td></tr>
+      <tr><td><code>macrorregiao</code></td><td>categórico</td><td>Macrorregião de saúde do hospital (4 macros)</td></tr>
+    </table>
+    <p class="mini">Ficam de fora óbitos, taxa do hospital e taxa ajustada: seriam a própria resposta (vazamento).</p>
+  </div>
+</section>
+
+<!-- 10 ALVO E DIVISAO -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">2 · Registros finais e alvo</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">6.492 registros, 24% acima do esperado</h2>
+  <div class="corpo c3">
+    <div class="card kpi"><div class="num-grande">6.492</div><div class="rot">registros finais (hospital × capítulo × faixa com 10+ internações), em 231 hospitais</div></div>
+    <div class="card">
+      <h4>Distribuição da variável-alvo</h4>
+      <div class="barras" style="margin-top:1vh">
+        <div class="l"><span>Dentro (0)</span><span class="t"><i class="v" style="width:100%"></i></span><span class="v">4.908</span></div>
+        <div class="l"><span>Acima (1)</span><span class="t"><i class="r" style="width:32.3%"></i></span><span class="v">1.584</span></div>
+      </div>
+      <p class="mini">75,6% contra 24,4%.</p>
+    </div>
+    <div class="card">
+      <h4>Balanceamento</h4>
+      <p>Sem reamostragem (nada de SMOTE ou undersampling). Usamos <b>class_weight="balanced"</b> na Regressão Logística e no Random Forest e divisão <b>estratificada</b>, que mantém a proporção nos dois lados.</p>
+    </div>
+  </div>
+  <div class="corpo c2" style="margin-top:2vh;flex:none">
+    <table><tr><th>Divisão</th><th class="n">Registros</th><th class="n">Acima</th><th class="n">Dentro</th></tr>
+      <tr><td>Treino (75%)</td><td class="n">4.869</td><td class="n">1.188</td><td class="n">3.681</td></tr>
+      <tr><td>Teste (25%)</td><td class="n">1.623</td><td class="n">396</td><td class="n">1.227</td></tr></table>
+    <div class="alerta"><b>Regra:</b> o teste é separado antes de tudo, com semente 42, e só é usado uma vez, no fim. Toda escolha de hiperparâmetro acontece dentro do treino.</div>
+  </div>
+</section>
+
+<!-- 11 HIPERPARAMETROS -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">3 · Construção e otimização</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Três modelos, mesma busca, mesma validação</h2>
+  <p class="sub">Técnica: <b>Grid Search</b> (GridSearchCV) · Métrica de escolha: <b>AUROC</b> · Validação cruzada: <b>StratifiedKFold, K = 5</b></p>
+  <div class="corpo" style="grid-template-columns:1fr">
+    <table>
+      <tr><th>Modelo</th><th>Escopo da busca</th><th class="n">Combinações</th><th>Melhor configuração</th><th class="n">AUROC CV</th></tr>
+      <tr><td><b>Regressão Logística</b></td><td><code>C</code> ∈ {0,1; 1; 10} · max_iter=2000 · class_weight=balanced</td><td class="n">3</td><td><code>C = 1</code></td><td class="n">0,812</td></tr>
+      <tr class="top"><td><b>Random Forest</b></td><td><code>n_estimators</code> = 300 · <code>max_depth</code> ∈ {6; 10; None} · <code>min_samples_leaf</code> ∈ {1; 5} · class_weight=balanced</td><td class="n">6</td><td><code>max_depth = None</code>, <code>min_samples_leaf = 1</code>, <code>n_estimators = 300</code></td><td class="n">0,866</td></tr>
+      <tr><td><b>Gradient Boosting</b></td><td><code>n_estimators</code> ∈ {200; 400} · <code>learning_rate</code> ∈ {0,05; 0,1} · <code>max_depth</code> ∈ {2; 3}</td><td class="n">8</td><td><code>n_estimators = 400</code>, <code>learning_rate = 0,1</code>, <code>max_depth = 3</code></td><td class="n">0,864</td></tr>
+    </table>
+    <p class="mini">17 combinações × 5 partes = 85 treinos na busca. Pré-processamento dentro do Pipeline, ajustado só no treino de cada parte.</p>
+  </div>
+</section>
+
+<!-- 12 RESULTADOS -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">4 · Resultados</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Desempenho no teste (1.623 registros nunca vistos)</h2>
+  <div class="corpo" style="grid-template-columns:1fr">
+    <table>
+      <tr><th>Modelo</th><th class="n">AUROC CV</th><th class="n">AUROC teste</th><th class="n">Acurácia</th><th class="n">Precisão</th><th class="n">Sensibilidade</th><th class="n">Especificidade</th><th class="n">F1</th></tr>
+      <tr><td>Regressão Logística</td><td class="n">0,812</td><td class="n">0,806</td><td class="n">73,1%</td><td class="n">46,8%</td><td class="n"><b>73,0%</b></td><td class="n">73,2%</td><td class="n">0,570</td></tr>
+      <tr class="top"><td>Random Forest</td><td class="n"><b>0,866</b></td><td class="n"><b>0,866</b></td><td class="n"><b>82,6%</b></td><td class="n"><b>70,8%</b></td><td class="n">48,5%</td><td class="n"><b>93,6%</b></td><td class="n">0,576</td></tr>
+      <tr><td>Gradient Boosting</td><td class="n">0,864</td><td class="n">0,858</td><td class="n">82,0%</td><td class="n">67,0%</td><td class="n">51,8%</td><td class="n">91,8%</td><td class="n"><b>0,584</b></td></tr>
+    </table>
+    <div class="c3" style="display:grid;gap:1.2vw;margin-top:1vh">
+      <div class="card"><h4>AUROC no teste</h4><div class="barras">
+        <div class="l"><span>Reg. Logística</span><span class="t"><i style="width:80.6%"></i></span><span class="v">0,806</span></div>
+        <div class="l"><span>Random Forest</span><span class="t"><i class="v" style="width:86.6%"></i></span><span class="v">0,866</span></div>
+        <div class="l"><span>Grad. Boosting</span><span class="t"><i style="width:85.8%"></i></span><span class="v">0,858</span></div></div></div>
+      <div class="card"><h4>Acurácia</h4><div class="barras">
+        <div class="l"><span>Reg. Logística</span><span class="t"><i style="width:73.1%"></i></span><span class="v">73,1%</span></div>
+        <div class="l"><span>Random Forest</span><span class="t"><i class="v" style="width:82.6%"></i></span><span class="v">82,6%</span></div>
+        <div class="l"><span>Grad. Boosting</span><span class="t"><i style="width:82%"></i></span><span class="v">82,0%</span></div></div></div>
+      <div class="card"><h4>Base de comparação</h4><p>Chutar sempre "dentro" daria 75,6% de acurácia e AUROC 0,5. Por isso a escolha é pela AUROC, não pela acurácia.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 MATRIZES -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">4 · Resultados</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Onde cada modelo acerta e erra</h2>
+  <p class="sub">Matriz de confusão no teste. Linhas: o que aconteceu. Colunas: o que o modelo disse.</p>
+  <div class="corpo c3">
+    <div class="card"><h4>Regressão Logística</h4><div class="mz">
+      <div class="h"></div><div class="h">disse dentro</div><div class="h">disse acima</div>
+      <div class="h">era dentro</div><div class="ok"><b>898</b>acerto</div><div class="er"><b>329</b>alarme falso</div>
+      <div class="h">era acima</div><div class="er"><b>107</b>deixou passar</div><div class="ok"><b>289</b>acerto</div></div>
+      <p class="mini">Pega mais casos acima, mas erra muito no alarme.</p></div>
+    <div class="card" style="border:2px solid var(--verde-vivo)"><h4>Random Forest</h4><div class="mz">
+      <div class="h"></div><div class="h">disse dentro</div><div class="h">disse acima</div>
+      <div class="h">era dentro</div><div class="ok"><b>1.148</b>acerto</div><div class="er"><b>79</b>alarme falso</div>
+      <div class="h">era acima</div><div class="er"><b>204</b>deixou passar</div><div class="ok"><b>192</b>acerto</div></div>
+      <p class="mini">Menos alarme falso de todos: quando aponta "acima", acerta 7 em 10.</p></div>
+    <div class="card"><h4>Gradient Boosting</h4><div class="mz">
+      <div class="h"></div><div class="h">disse dentro</div><div class="h">disse acima</div>
+      <div class="h">era dentro</div><div class="ok"><b>1.126</b>acerto</div><div class="er"><b>101</b>alarme falso</div>
+      <div class="h">era acima</div><div class="er"><b>191</b>deixou passar</div><div class="ok"><b>205</b>acerto</div></div>
+      <p class="mini">Muito parecido com o Random Forest, um pouco mais de alarme falso.</p></div>
+  </div>
+</section>
+
+<!-- 14 ESCOLHA -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">4 · Escolha do modelo</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">Random Forest foi o escolhido</h2>
+  <div class="corpo c2">
+    <div class="card">
+      <h4>Por quê</h4>
+      <ul>
+        <li><b>Maior AUROC na validação cruzada</b> (0,866), que é o critério definido antes de olhar o teste.</li>
+        <li><b>Teste igual à validação</b> (0,866 e 0,866): não decorou o treino.</li>
+        <li><b>Maior precisão e especificidade</b>: no simulador, dizer que um hospital é ruim sem ser é o erro mais caro.</li>
+        <li>Gradient Boosting ficou a 0,002 de AUROC. Empate técnico; o Random Forest é mais simples de ajustar e explicar.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Importância das variáveis (queda de AUROC ao embaralhar)</h4>
+      <div class="barras">
+        <div class="l"><span>Permanência média</span><span class="t"><i class="v" style="width:100%"></i></span><span class="v">0,151</span></div>
+        <div class="l"><span>Porte do hospital</span><span class="t"><i class="v" style="width:43.8%"></i></span><span class="v">0,066</span></div>
+        <div class="l"><span>Mortalidade do estado</span><span class="t"><i class="v" style="width:27.3%"></i></span><span class="v">0,041</span></div>
+        <div class="l"><span>% urgência</span><span class="t"><i class="v" style="width:23.1%"></i></span><span class="v">0,035</span></div>
+        <div class="l"><span>Macrorregião</span><span class="t"><i class="v" style="width:14.3%"></i></span><span class="v">0,022</span></div>
+        <div class="l"><span>Volume no grupo</span><span class="t"><i class="v" style="width:13.7%"></i></span><span class="v">0,021</span></div>
+        <div class="l"><span>Grupo de doença</span><span class="t"><i class="v" style="width:10.4%"></i></span><span class="v">0,016</span></div>
+        <div class="l"><span>Faixa etária</span><span class="t"><i class="v" style="width:4.2%"></i></span><span class="v">0,006</span></div>
+        <div class="l"><span>Permanência do estado</span><span class="t"><i class="v" style="width:3.2%"></i></span><span class="v">0,005</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="alerta"><b>Ponto fraco assumido:</b> sensibilidade de 48,5%. De cada dois hospitais realmente acima, o modelo aponta um. Dá pra trocar precisão por sensibilidade baixando o corte de 0,5.</div>
+</section>
+
+<!-- 15 SIMULADOR -->
+<section class="slide fundo">
+  <div class="topo"><span class="etq">A aplicação</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">O simulador</h2>
+  <p class="sub">Duas telas. Na primeira a pessoa só escolhe. Os números aparecem depois do "Continuar".</p>
+  <div class="corpo c3">
+    <div class="card"><h4>1. Escolhas</h4><ul><li>Sintoma ou doença com busca (pneumonia, infarto, fratura...) ou o grupo direto</li><li>Faixa etária</li><li>Hospital com busca por nome</li></ul></div>
+    <div class="card"><h4>2. Resultado</h4><ul><li>Mortalidade, permanência e internações</li><li>Veredito do modelo com a chance de ficar acima</li><li>Ranking de hospitais na região e no estado</li><li>Top 5 doenças e tratamentos, com "ver mais"</li></ul></div>
+    <div class="card"><h4>3. Dados em detalhe</h4><ul><li>Painel no canto superior direito</li><li>Tabela por faixa etária e todos os hospitais do grupo</li><li>Os 3 modelos comparados e como ler cada métrica</li><li>Fonte e limites</li></ul></div>
+  </div>
+  <p class="mini" style="margin-top:2vh">Ranking de hospitais pela taxa ajustada: (óbitos + 20 × taxa do estado) ÷ (internações + 20), pra hospital pequeno não aparecer no topo por acaso.</p>
+</section>
+
+<!-- 16 LIMITES -->
+<section class="slide papel">
+  <div class="topo"><span class="etq">Limites</span><span class="marca"><i></i>TSPE</span></div>
+  <h2 class="titulo">O que o projeto não responde</h2>
+  <div class="corpo c2">
+    <div class="card"><h4>Dos dados</h4><ul>
+      <li>São agregados: o modelo classifica grupos de internações, não pacientes.</li>
+      <li>Não há gravidade do caso. Hospital de referência recebe os mais graves e tende a ter mortalidade maior.</li>
+      <li>"Mais perto" é a região de saúde, não a distância em km (o TABNET não traz endereço).</li>
+    </ul></div>
+    <div class="card"><h4>Do modelo</h4><ul>
+      <li>A permanência média é medida nas mesmas internações: o modelo descreve o histórico do hospital.</li>
+      <li>Sensibilidade de 48,5% no corte padrão.</li>
+      <li>Tratamentos não saem do DATASUS (que registra diagnóstico, não remédio). São textos da equipe, informativos.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- 17 FECHAMENTO -->
+<section class="slide fundo">
+  <div class="topo"><span class="etq">TSPE · 2026</span><span class="marca"><i></i>TSPE</span></div>
+  <div style="margin-top:auto">
+    <p class="frase">679 mil internações viraram uma pergunta simples: <em>esse hospital está dentro do esperado?</em></p>
+    <p class="capa-s">Random Forest · AUROC 0,866 · acurácia 82,6% · 6.492 registros · 9 atributos</p>
+    <p class="mini" style="margin-top:3vh">Obrigado. Perguntas?</p>
+  </div>
+  <div class="parte">TSPE</div>
+</section>
+
+</div>
+<div class="hud"><button id="prev" aria-label="Anterior">&lsaquo;</button><span class="count" id="count">01 / 17</span><button id="next" aria-label="Próximo">&rsaquo;</button></div>
+<script>
+const slides=Array.from(document.querySelectorAll('.slide'));const total=slides.length;let i=0;
+const count=document.getElementById('count');const progress=document.getElementById('progress');
+const pad=n=>String(n).padStart(2,'0');
+function show(n){i=Math.max(0,Math.min(total-1,n));slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));count.textContent=pad(i+1)+' / '+pad(total);progress.style.width=((i+1)/total*100)+'%';}
+document.getElementById('next').onclick=()=>show(i+1);document.getElementById('prev').onclick=()=>show(i-1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(total-1);});
+let sx=0;document.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50){dx<0?show(i+1):show(i-1);}},{passive:true});
+show(0);
+</script>
+</body>
+</html>

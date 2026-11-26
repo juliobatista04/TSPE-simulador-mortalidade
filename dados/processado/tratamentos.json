@@ -1,0 +1,325 @@
+{
+ "1": {
+  "doenca_cid": "Algumas doenças infecciosas e parasitárias",
+  "causas": [
+   "Infecção por vírus, como os causadores da dengue e da hepatite.",
+   "Infecção por bactérias, como as responsáveis pela tuberculose.",
+   "Infecção por parasitas, como os causadores da malária e da esquistossomose.",
+   "Consumo de água ou alimentos contaminados.",
+   "Picadas de vetores infectados, como mosquitos."
+  ],
+  "tratamentos": [
+   "Antibióticos para determinadas infecções bacterianas.",
+   "Antivirais para infecções virais específicas, como algumas hepatites.",
+   "Antiparasitários para combater vermes e protozoários.",
+   "Hidratação oral ou intravenosa, especialmente em casos de desidratação.",
+   "Tratamento de suporte, com controle da febre, repouso e monitoramento das complicações."
+  ]
+ },
+ "2": {
+  "doenca_cid": "Neoplasias (tumores)",
+  "causas": [
+   "Alterações genéticas que provocam crescimento celular descontrolado.",
+   "Predisposição hereditária e histórico familiar.",
+   "Tabagismo e exposição a substâncias cancerígenas.",
+   "Exposição excessiva à radiação ultravioleta e a outras formas de radiação.",
+   "Infecções associadas ao câncer, como HPV e hepatites B e C."
+  ],
+  "tratamentos": [
+   "Cirurgia para retirada do tumor.",
+   "Quimioterapia para destruir ou controlar células cancerígenas.",
+   "Radioterapia para atingir células tumorais por meio de radiação.",
+   "Imunoterapia para estimular o sistema imunológico a combater o câncer.",
+   "Terapia-alvo, que atua sobre alterações específicas das células tumorais."
+  ]
+ },
+ "3": {
+  "doenca_cid": "Doenças do sangue e dos órgãos hematopoéticos e alguns transtornos imunitários",
+  "causas": [
+   "Deficiência de ferro, vitamina B12 ou ácido fólico.",
+   "Alterações genéticas que afetam a produção ou a estrutura das células sanguíneas.",
+   "Doenças autoimunes que atacam células do próprio organismo.",
+   "Infecções que comprometem a medula óssea ou o sistema imunológico.",
+   "Perda excessiva de sangue ou doenças que prejudicam sua produção."
+  ],
+  "tratamentos": [
+   "Suplementação de ferro, vitamina B12 ou ácido fólico, conforme a deficiência.",
+   "Transfusões de sangue em casos de anemia grave ou perda sanguínea importante.",
+   "Medicamentos imunossupressores para determinadas doenças autoimunes.",
+   "Quimioterapia para alguns cânceres hematológicos.",
+   "Transplante de medula óssea ou de células-tronco hematopoéticas em doenças selecionadas."
+  ]
+ },
+ "4": {
+  "doenca_cid": "Doenças endócrinas, nutricionais e metabólicas",
+  "causas": [
+   "Produção insuficiente ou resistência à ação da insulina.",
+   "Alterações hormonais na tireoide, hipófise ou outras glândulas.",
+   "Alimentação inadequada e desequilibrada.",
+   "Predisposição genética e histórico familiar.",
+   "Sedentarismo e alterações no metabolismo energético."
+  ],
+  "tratamentos": [
+   "Insulinoterapia para pessoas que necessitam de insulina.",
+   "Medicamentos para controle da glicemia, como a metformina em pacientes indicados.",
+   "Reposição hormonal, como levotiroxina no hipotireoidismo.",
+   "Acompanhamento nutricional e reeducação alimentar.",
+   "Atividade física orientada e controle do peso corporal."
+  ]
+ },
+ "5": {
+  "doenca_cid": "Transtornos mentais e comportamentais",
+  "causas": [
+   "Predisposição genética e histórico familiar.",
+   "Alterações biológicas e neuroquímicas relacionadas ao funcionamento cerebral.",
+   "Experiências traumáticas e situações de violência.",
+   "Estresse prolongado e condições sociais desfavoráveis.",
+   "Uso abusivo de álcool e outras substâncias psicoativas."
+  ],
+  "tratamentos": [
+   "Psicoterapia, como a terapia cognitivo-comportamental.",
+   "Antidepressivos, em casos nos quais são indicados.",
+   "Ansiolíticos, em situações específicas e com acompanhamento médico.",
+   "Estabilizadores de humor para determinados transtornos, como o bipolar.",
+   "Acompanhamento psiquiátrico e programas de reabilitação psicossocial."
+  ]
+ },
+ "6": {
+  "doenca_cid": "Doenças do sistema nervoso",
+  "causas": [
+   "Alterações genéticas e hereditárias.",
+   "Infecções que atingem o cérebro e a medula espinhal.",
+   "Acidentes vasculares cerebrais e lesões neurológicas.",
+   "Doenças degenerativas que provocam perda progressiva de neurônios.",
+   "Alterações autoimunes que atacam estruturas do sistema nervoso."
+  ],
+  "tratamentos": [
+   "Medicamentos anticonvulsivantes para controle da epilepsia.",
+   "Medicamentos dopaminérgicos para controle dos sintomas do Parkinson.",
+   "Medicamentos específicos para controle de sintomas de doenças neurodegenerativas.",
+   "Fisioterapia e reabilitação neurológica.",
+   "Terapias imunomoduladoras para determinadas doenças, como a esclerose múltipla."
+  ]
+ },
+ "7": {
+  "doenca_cid": "Doenças do olho e anexos",
+  "causas": [
+   "Envelhecimento natural das estruturas oculares.",
+   "Infecções bacterianas ou virais.",
+   "Diabetes e suas complicações, como a retinopatia diabética.",
+   "Pressão intraocular elevada, associada ao glaucoma.",
+   "Exposição excessiva à radiação ultravioleta e lesões oculares."
+  ],
+  "tratamentos": [
+   "Colírios antibióticos para determinadas infecções bacterianas.",
+   "Colírios anti-inflamatórios, quando indicados.",
+   "Medicamentos para reduzir a pressão intraocular no glaucoma.",
+   "Cirurgia de catarata com substituição do cristalino por uma lente artificial.",
+   "Injeções intraoculares e tratamentos a laser para determinadas doenças da retina."
+  ]
+ },
+ "8": {
+  "doenca_cid": "Doenças do ouvido e da apófise mastoide",
+  "causas": [
+   "Infecções bacterianas ou virais.",
+   "Acúmulo excessivo de cera no canal auditivo.",
+   "Exposição prolongada a ruídos intensos.",
+   "Envelhecimento e degeneração das estruturas auditivas.",
+   "Alterações no ouvido interno ou nos mecanismos responsáveis pelo equilíbrio."
+  ],
+  "tratamentos": [
+   "Antibióticos para determinadas infecções bacterianas.",
+   "Medicamentos para aliviar dor e inflamação.",
+   "Remoção profissional de cerume quando necessário.",
+   "Aparelhos auditivos para determinados tipos de perda auditiva.",
+   "Fisioterapia vestibular para alterações do equilíbrio."
+  ]
+ },
+ "9": {
+  "doenca_cid": "Doenças do aparelho circulatório",
+  "causas": [
+   "Hipertensão arterial não controlada.",
+   "Colesterol elevado e acúmulo de placas de gordura nas artérias.",
+   "Tabagismo.",
+   "Diabetes mellitus.",
+   "Sedentarismo, obesidade e alimentação inadequada."
+  ],
+  "tratamentos": [
+   "Medicamentos anti-hipertensivos para controle da pressão arterial.",
+   "Estatinas e outros medicamentos para controle do colesterol.",
+   "Anticoagulantes ou antiagregantes plaquetários em situações específicas.",
+   "Procedimentos como angioplastia para desobstrução de artérias.",
+   "Cirurgias cardiovasculares, como revascularização do miocárdio, quando necessárias."
+  ]
+ },
+ "10": {
+  "doenca_cid": "Doenças do aparelho respiratório",
+  "causas": [
+   "Infecções causadas por vírus e bactérias.",
+   "Tabagismo e exposição à fumaça.",
+   "Poluição atmosférica e exposição a agentes químicos.",
+   "Alergias e exposição a ácaros, poeira e mofo.",
+   "Predisposição genética e alterações estruturais do sistema respiratório."
+  ],
+  "tratamentos": [
+   "Antibióticos para infecções bacterianas específicas, como algumas pneumonias.",
+   "Broncodilatadores para facilitar a passagem de ar.",
+   "Corticoides inalatórios para controle de determinadas doenças inflamatórias, como a asma.",
+   "Oxigenoterapia para pacientes com níveis insuficientes de oxigênio.",
+   "Fisioterapia respiratória e reabilitação pulmonar."
+  ]
+ },
+ "11": {
+  "doenca_cid": "Doenças do aparelho digestivo",
+  "causas": [
+   "Infecção pela bactéria Helicobacter pylori.",
+   "Consumo excessivo de álcool.",
+   "Alimentação inadequada e hábitos alimentares prejudiciais.",
+   "Uso prolongado de determinados medicamentos, como anti-inflamatórios.",
+   "Infecções, alterações autoimunes e doenças que comprometem órgãos digestivos."
+  ],
+  "tratamentos": [
+   "Medicamentos que reduzem a produção de ácido gástrico, como os inibidores da bomba de prótons.",
+   "Antibióticos associados a outros medicamentos para erradicação do H. pylori.",
+   "Mudanças alimentares e acompanhamento nutricional.",
+   "Hidratação e reposição de eletrólitos em casos de vômitos e diarreia.",
+   "Cirurgias e procedimentos endoscópicos para determinadas complicações digestivas."
+  ]
+ },
+ "12": {
+  "doenca_cid": "Doenças da pele e do tecido subcutâneo",
+  "causas": [
+   "Infecções por bactérias, fungos e vírus.",
+   "Reações alérgicas a produtos químicos e cosméticos.",
+   "Alterações autoimunes e inflamatórias.",
+   "Predisposição genética.",
+   "Exposição excessiva ao sol e a agentes irritantes."
+  ],
+  "tratamentos": [
+   "Cremes e pomadas antibióticas para determinadas infecções bacterianas.",
+   "Medicamentos antifúngicos para combater micoses.",
+   "Corticoides tópicos para determinadas inflamações e dermatites.",
+   "Medicamentos imunomoduladores para doenças como a psoríase.",
+   "Hidratantes e produtos dermatológicos para recuperação da barreira cutânea."
+  ]
+ },
+ "13": {
+  "doenca_cid": "Doenças do sistema osteomuscular e do tecido conjuntivo",
+  "causas": [
+   "Envelhecimento e desgaste das articulações.",
+   "Predisposição genética.",
+   "Movimentos repetitivos e sobrecarga física.",
+   "Doenças autoimunes que provocam inflamações nas articulações.",
+   "Sedentarismo, excesso de peso e alterações posturais."
+  ],
+  "tratamentos": [
+   "Fisioterapia para recuperar movimentos e fortalecer a musculatura.",
+   "Medicamentos analgésicos para aliviar a dor.",
+   "Anti-inflamatórios em situações específicas e sob orientação médica.",
+   "Medicamentos específicos para osteoporose, como os bisfosfonatos, quando indicados.",
+   "Cirurgias ortopédicas, como a substituição de articulações em casos graves."
+  ]
+ },
+ "14": {
+  "doenca_cid": "Doenças do aparelho geniturinário",
+  "causas": [
+   "Infecções bacterianas do trato urinário.",
+   "Diabetes mellitus, que pode comprometer os rins.",
+   "Hipertensão arterial prolongada.",
+   "Formação de cálculos renais devido a alterações na composição da urina.",
+   "Alterações anatômicas, obstruções urinárias e doenças hereditárias."
+  ],
+  "tratamentos": [
+   "Antibióticos para infecções urinárias bacterianas.",
+   "Medicamentos para controle da pressão arterial e proteção renal.",
+   "Hidratação orientada e medidas para prevenção de cálculos renais.",
+   "Procedimentos como litotripsia para fragmentar determinados cálculos.",
+   "Diálise ou transplante renal em casos selecionados de insuficiência renal avançada."
+  ]
+ },
+ "15": {
+  "doenca_cid": "Gravidez, parto e puerpério",
+  "causas": [
+   "Alterações na pressão arterial durante a gestação.",
+   "Resistência à insulina e alterações metabólicas.",
+   "Infecções durante a gravidez ou após o parto.",
+   "Alterações na placenta, como placenta prévia e descolamento prematuro.",
+   "Condições maternas preexistentes, como obesidade, diabetes e doenças cardiovasculares."
+  ],
+  "tratamentos": [
+   "Acompanhamento pré-natal regular para identificar e controlar complicações.",
+   "Medicamentos anti-hipertensivos para controle da pressão arterial.",
+   "Insulina para controle do diabetes gestacional quando necessária.",
+   "Antibióticos para tratamento de infecções bacterianas.",
+   "Procedimentos obstétricos, como cesariana ou intervenções para controle de hemorragias, quando indicados."
+  ]
+ },
+ "16": {
+  "doenca_cid": "Algumas afecções originadas no período perinatal",
+  "causas": [
+   "Nascimento prematuro.",
+   "Infecções maternas transmitidas ao bebê durante a gestação ou o parto.",
+   "Insuficiência placentária e falta de oxigenação adequada durante a gestação ou o nascimento.",
+   "Baixo peso ao nascer e restrição do crescimento fetal.",
+   "Complicações respiratórias relacionadas à imaturidade dos pulmões."
+  ],
+  "tratamentos": [
+   "Incubadoras e cuidados especializados para recém-nascidos prematuros.",
+   "Oxigenoterapia e suporte ventilatório para dificuldades respiratórias.",
+   "Fototerapia para tratamento de determinados casos de icterícia neonatal.",
+   "Antibióticos para infecções bacterianas neonatais.",
+   "Alimentação por sonda ou suporte nutricional especializado para bebês que não conseguem se alimentar adequadamente."
+  ]
+ },
+ "17": {
+  "doenca_cid": "Malformações congênitas, deformidades e anomalias cromossômicas",
+  "causas": [
+   "Alterações genéticas herdadas dos pais.",
+   "Alterações cromossômicas durante a formação do embrião.",
+   "Exposição a determinados medicamentos e substâncias teratogênicas durante a gestação.",
+   "Infecções maternas, como a rubéola congênita.",
+   "Deficiências nutricionais durante a gestação, como a deficiência de ácido fólico, associada a defeitos do tubo neural."
+  ],
+  "tratamentos": [
+   "Cirurgias corretivas para determinadas malformações.",
+   "Fisioterapia para melhorar o desenvolvimento motor e funcional.",
+   "Terapia ocupacional para desenvolver autonomia nas atividades diárias.",
+   "Acompanhamento multidisciplinar com médicos especialistas, fonoaudiólogos e outros profissionais.",
+   "Medicamentos e tratamentos específicos para complicações associadas, como problemas cardíacos e hormonais."
+  ]
+ },
+ "18": {
+  "doenca_cid": "Sintomas, sinais e achados anormais de exames clínicos e de laboratório",
+  "causas": [
+   "Infecções ainda não identificadas.",
+   "Alterações hormonais e metabólicas.",
+   "Doenças cardiovasculares e respiratórias.",
+   "Distúrbios gastrointestinais.",
+   "Alterações neurológicas e inflamatórias."
+  ],
+  "tratamentos": [
+   "Exames laboratoriais para identificar possíveis alterações.",
+   "Exames de imagem, como radiografia, ultrassonografia e tomografia.",
+   "Medicamentos para aliviar sintomas, como analgésicos e antitérmicos, quando indicados.",
+   "Tratamento direcionado à doença identificada após investigação clínica.",
+   "Monitoramento e acompanhamento médico para avaliar a evolução dos sintomas."
+  ]
+ },
+ "19": {
+  "doenca_cid": "Lesões, envenenamentos e algumas outras consequências de causas externas",
+  "causas": [
+   "Acidentes de trânsito.",
+   "Quedas e acidentes domésticos.",
+   "Acidentes de trabalho.",
+   "Exposição a substâncias tóxicas e produtos químicos.",
+   "Agressões físicas e outros episódios de violência."
+  ],
+  "tratamentos": [
+   "Imobilização de fraturas e lesões ósseas.",
+   "Cirurgias para reparar tecidos e estruturas danificadas.",
+   "Curativos e cuidados especializados para queimaduras e ferimentos.",
+   "Administração de antídotos específicos em determinadas intoxicações.",
+   "Reabilitação física e fisioterapia após traumatismos e lesões."
+  ]
+ }
+}
